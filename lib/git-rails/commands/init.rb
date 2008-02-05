@@ -9,6 +9,8 @@ module GitRails
           gitignore << "tmp/**/*\n"
           gitignore << ".DS_Store\n"
           gitignore << "public/cache/**/*\n"
+          gitignore << "doc/api\n"
+          gitignore << "doc/app\n"
           gitignore.close
         end
         FileUtils.mkdir_p("log")
