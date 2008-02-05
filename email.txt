@@ -1,0 +1,25 @@
+Subject: [ANN] git-rails 0.1.0 Released
+
+git-rails version 0.1.0 has been released!
+
+
+
+## DESCRIPTION:
+
+Tools to help using git with rails
+
+## FEATURES/PROBLEMS:
+
+* create new git repository with .gitignore, linked to remote git repository
+* install plugins from git source as git modules
+* install plugins from svn source as git modules
+
+Changes:
+
+### 0.2.0 / 2008-02-04
+
+* enhancements:
+  * Added missing gem dependencies
+  * First public release
+
+

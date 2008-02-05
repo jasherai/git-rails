@@ -1,0 +1,5 @@
+* run specs for non committed files
+
+* make some git recipes configurable via ~/.git-rails
+
+* Add svn plugin support (via giston?)

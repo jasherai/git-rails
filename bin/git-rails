@@ -1,0 +1,122 @@
+#! /opt/local/bin/ruby
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
+
+begin
+  require 'rubygems'
+rescue
+end
+require 'main'
+
+require 'git_rails'
+
+Home = File.expand_path(ENV['HOME'] || '~')
+
+# mostly blatantly stolen from ara's punch script main kicks ass!
+Main {
+  description <<-txt
+    git-rails is a tool to help manage a rails app using git
+
+    run 'git-rails help commandname' for more info.
+  txt
+
+  examples <<-txt
+  txt
+
+  mode(:init){
+    description <<-txt
+      initializes a git repository, and links to remote url if provided (for push/pull)
+      also creates a .gitignore file
+
+    txt
+
+    examples <<-txt
+      . git-rails init -m "message" -c git@gitorious.org:rur/mainline.git
+    txt
+
+    mixin :optional_remote, :option_message, :option_commit
+
+    run{
+      GitRails::Command.run(:init, remote, message, commit)
+    }
+  }
+
+  mode(:install){
+    description <<-txt
+      installs a plugin from a remote git repostiory
+
+    txt
+
+    examples <<-txt
+      . git-rails install git://gitorious.org/rur/mainline.git plugin-name
+    txt
+
+    mixin :argument_remote, :argument_plugin_name
+
+    run{
+      GitRails::Command.run(:install, remote, plugin_name)
+    }
+  }
+
+  mode(:update){
+    description <<-txt
+      updates a plugin from original source
+    txt
+
+    examples <<-txt
+      . git-rails update plugin-name
+    txt
+
+    mixin :argument_plugin_name
+
+    run{
+      GitRails::Command.run(:update, plugin_name)
+    }
+  }
+
+  mode(:version){
+    description 'shows git-rails version'
+
+    run{
+      puts "git-rails #{GitRails::VERSION::STRING}"
+    }
+  }
+
+  mixin :argument_remote do
+    argument(:remote){
+      attr
+    }
+  end
+
+  mixin :argument_plugin_name do
+    argument(:plugin_name){
+      attr
+    }
+  end
+
+  mixin :optional_remote do
+    argument(:remote){
+      optional
+      attr
+    }
+  end
+
+  mixin :option_message do
+    option(:message, :m){
+      optional
+      argument :required
+      desc 'commit message'
+      attr
+    }
+  end
+
+  mixin :option_commit do
+    option(:commit, :c){
+      optional
+      desc 'perform a commit'
+      attr
+    }
+  end
+
+  run{ help! }
+}
+
