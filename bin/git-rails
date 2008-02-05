@@ -42,7 +42,7 @@ Main {
 
   mode(:install){
     description <<-txt
-      installs a plugin from a remote git repostiory
+      installs a plugin from a remote git repository
 
     txt
 
