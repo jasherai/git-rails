@@ -1,7 +1,9 @@
 History.txt
+License.txt
 Manifest.txt
 README.txt
 Rakefile
+TODO
 bin/git-rails
 lib/git-rails/commands.rb
 lib/git-rails/commands/init.rb
