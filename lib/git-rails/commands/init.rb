@@ -34,7 +34,7 @@ module GitRails
           config << "        merge = refs/heads/master\n"
           config.close
           puts "You can now push to the origin #{remote} by using:\n"
-          puts "  git pust origin master\n"
+          puts "  git push origin master\n"
         end
       end
 
