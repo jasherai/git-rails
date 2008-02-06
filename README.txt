@@ -1,6 +1,6 @@
 = git-rails
 
-* http://blog.nanorails.com
+* http://blog.nanorails.com/git-rails
 
 == DESCRIPTION:
 
