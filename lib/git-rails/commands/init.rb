@@ -12,6 +12,22 @@ module GitRails
         ignore("public/cache", "[^.]*")
         ignore("doc", ["api","app"])
 
+        sqlite = File.new("config/database.sqlite.yml", "w")
+        sqlite << "development:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/dev.db\n\n"
+        sqlite << "test:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/test.db\n\n"
+        sqlite << "production:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/prod.db\n"
+        sqlite.close
+        if File.exists?("config/database.yml")
+          FileUtils.mv("config/database.yml", "config/database.mysql.yml")
+        end
+        FileUtils.ln_sf("database.sqlite.yml", "config/database.yml")
+
         git = GitRails::Git.new
         git.init
         git.add(".")
