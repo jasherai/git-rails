@@ -2,4 +2,6 @@
 
 * make some git recipes configurable via ~/.git-rails
 
-* Add svn plugin support (via giston?)
+* Add svn plugin support (via giston? install + update)
+
+* Push to svn mirror (init + push)
