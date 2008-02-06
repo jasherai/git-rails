@@ -1,25 +1,17 @@
+require 'fileutils'
+
 module GitRails
   module Commands
     class Init < GitRails::Command
-
       def run(remote, message='', commit=false)
-        unless File.exists?(".gitignore")
-          gitignore = File.new(".gitignore", "w")
-          gitignore << "log/*.log\n"
-          gitignore << "tmp/**/*\n"
-          gitignore << ".DS_Store\n"
-          gitignore << "public/cache/**/*\n"
-          gitignore << "doc/api\n"
-          gitignore << "doc/app\n"
-          gitignore.close
-        end
-        FileUtils.mkdir_p("log")
-        gitignore = File.new("log/.gitignore", "w")
-        gitignore.close
-        FileUtils.mkdir_p("tmp")
-        gitignore = File.new("tmp/.gitignore", "w")
-        gitignore.close
-        
+        ignore(".", ".DS_Store")
+        ignore("config", "database.yml")
+        ignore("db", ["*.db", "*.sqlite*"])
+        ignore("log", "*.log")
+        ignore("tmp", "[^.]*")
+        ignore("public/cache", "[^.]*")
+        ignore("doc", ["api","app"])
+
         git = GitRails::Git.new
         git.init
         git.add(".")
@@ -37,7 +29,18 @@ module GitRails
           puts "  git push origin master\n"
         end
       end
-
+    private
+      def ignore(path, entries)
+        file = path + "/.gitignore"
+        unless File.exists?(file)
+          FileUtils.mkdir_p(path)
+          handle = File.new(file, "w")
+          entries.each do |entry|
+            handle << "#{entry}\n"
+          end
+          handle.close
+        end
+      end
     end
   end
 end
