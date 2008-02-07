@@ -1,25 +1,33 @@
+require 'fileutils'
+
 module GitRails
   module Commands
     class Init < GitRails::Command
-
       def run(remote, message='', commit=false)
-        unless File.exists?(".gitignore")
-          gitignore = File.new(".gitignore", "w")
-          gitignore << "log/*.log\n"
-          gitignore << "tmp/**/*\n"
-          gitignore << ".DS_Store\n"
-          gitignore << "public/cache/**/*\n"
-          gitignore << "doc/api\n"
-          gitignore << "doc/app\n"
-          gitignore.close
+        ignore(".", ".DS_Store")
+        ignore("config", "database.yml")
+        ignore("db", ["*.db", "*.sqlite*"])
+        ignore("log", "*.log")
+        ignore("tmp", "[^.]*")
+        ignore("public/cache", "[^.]*")
+        ignore("doc", ["api","app"])
+
+        sqlite = File.new("config/database.sqlite.yml", "w")
+        sqlite << "development:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/dev.db\n\n"
+        sqlite << "test:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/test.db\n\n"
+        sqlite << "production:\n"
+        sqlite << "  adapter: sqlite3\n"
+        sqlite << "  dbfile: db/prod.db\n"
+        sqlite.close
+        if File.exists?("config/database.yml")
+          FileUtils.mv("config/database.yml", "config/database.mysql.yml")
         end
-        FileUtils.mkdir_p("log")
-        gitignore = File.new("log/.gitignore", "w")
-        gitignore.close
-        FileUtils.mkdir_p("tmp")
-        gitignore = File.new("tmp/.gitignore", "w")
-        gitignore.close
-        
+        FileUtils.ln_sf("database.sqlite.yml", "config/database.yml")
+
         git = GitRails::Git.new
         git.init
         git.add(".")
@@ -34,10 +42,21 @@ module GitRails
           config << "        merge = refs/heads/master\n"
           config.close
           puts "You can now push to the origin #{remote} by using:\n"
-          puts "  git pust origin master\n"
+          puts "  git push origin master\n"
         end
       end
-
+    private
+      def ignore(path, entries)
+        file = path + "/.gitignore"
+        unless File.exists?(file)
+          FileUtils.mkdir_p(path)
+          handle = File.new(file, "w")
+          entries.each do |entry|
+            handle << "#{entry}\n"
+          end
+          handle.close
+        end
+      end
     end
   end
 end
