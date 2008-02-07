@@ -1,8 +1,12 @@
 === 0.3.0 / 2008-02-06
 
 * enhancements:
-  * Added
-  * 
+  * split up ignores - Ron Damen
+
+  i prefer the ignore to be in separate files. 
+  added ignore for sqlite databases.
+  
+  * typo fixed in init - Ron Damen
 
 === 0.2.0 / 2008-02-04
 
