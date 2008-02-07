@@ -1,3 +1,9 @@
+=== 0.3.0 / 2008-02-06
+
+* enhancements:
+  * Added
+  * 
+
 === 0.2.0 / 2008-02-04
 
 * enhancements:
