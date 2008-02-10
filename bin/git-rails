@@ -25,7 +25,7 @@ Main {
   mode(:init){
     description <<-txt
       initializes a git repository, and links to remote url if provided (for push/pull)
-      also creates a .gitignore file
+      also creates .gitignore files
 
     txt
 
@@ -33,10 +33,10 @@ Main {
       . git-rails init -m "message" -c git@gitorious.org:rur/mainline.git
     txt
 
-    mixin :optional_remote, :option_message, :option_commit
+    mixin :optional_remote, :option_message, :option_commit, :option_include_database_yaml
 
     run{
-      GitRails::Command.run(:init, remote, message, commit)
+      GitRails::Command.run(:init, remote, message, commit, include_database_yaml)
     }
   }
 
@@ -113,6 +113,14 @@ Main {
     option(:commit, :c){
       optional
       desc 'perform a commit'
+      attr
+    }
+  end
+
+  mixin :option_include_database_yaml do
+    option(:include_database_yaml, :d){
+      optional
+      desc 'include database.yml in the repository'
       attr
     }
   end
