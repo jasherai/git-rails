@@ -3,30 +3,38 @@ require 'fileutils'
 module GitRails
   module Commands
     class Init < GitRails::Command
-      def run(remote, message='', commit=false)
+      def run(remote, message='', commit=false, include_database_yaml=false)
         ignore(".", ".DS_Store")
-        ignore("config", "database.yml")
-        ignore("db", ["*.db", "*.sqlite*"])
+        ignore("db", "*.sqlite3")
         ignore("log", "*.log")
         ignore("tmp", "[^.]*")
         ignore("public/cache", "[^.]*")
         ignore("doc", ["api","app"])
 
-        sqlite = File.new("config/database.sqlite.yml", "w")
-        sqlite << "development:\n"
-        sqlite << "  adapter: sqlite3\n"
-        sqlite << "  dbfile: db/dev.db\n\n"
-        sqlite << "test:\n"
-        sqlite << "  adapter: sqlite3\n"
-        sqlite << "  dbfile: db/test.db\n\n"
-        sqlite << "production:\n"
-        sqlite << "  adapter: sqlite3\n"
-        sqlite << "  dbfile: db/prod.db\n"
-        sqlite.close
-        if File.exists?("config/database.yml")
-          FileUtils.mv("config/database.yml", "config/database.mysql.yml")
+        unless include_database_yaml then
+          ignore("config", "database.yml")
         end
-        FileUtils.ln_sf("database.sqlite.yml", "config/database.yml")
+
+        unless sqlite_by_default then
+          sqlite = File.new("config/database.sqlite.yml", "w")
+          sqlite << "development:\n"
+          sqlite << "  adapter: sqlite3\n"
+          sqlite << "  dbfile: db/development.sqlite3\n"
+          sqlite << "  timeout: 5000\n\n"
+          sqlite << "test:\n"
+          sqlite << "  adapter: sqlite3\n"
+          sqlite << "  dbfile: db/test.sqlite3\n"
+          sqlite << "  timeout: 5000\n\n"
+          sqlite << "production:\n"
+          sqlite << "  adapter: sqlite3\n"
+          sqlite << "  dbfile: db/production.sqlite3\n"
+          sqlite << "  timeout: 5000\n\n"
+          sqlite.close
+          if File.exists?("config/database.yml")
+            FileUtils.mv("config/database.yml", "config/database.mysql.yml")
+          end
+          FileUtils.ln_sf("database.sqlite.yml", "config/database.yml")
+        end
 
         git = GitRails::Git.new
         git.init
@@ -45,6 +53,7 @@ module GitRails
           puts "  git push origin master\n"
         end
       end
+
     private
       def ignore(path, entries)
         file = path + "/.gitignore"
@@ -55,6 +64,17 @@ module GitRails
             handle << "#{entry}\n"
           end
           handle.close
+        end
+      end
+
+      def sqlite_by_default
+        begin
+          require 'config/boot.rb'
+          # TODO: Make this less nasty.
+          rails_version = Rails::VERSION::STRING.scan(/(\d)/).flatten.to_s.to_i
+          rails_version <= 202          
+        rescue LoadError
+          true
         end
       end
     end
