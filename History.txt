@@ -1,6 +1,10 @@
 === 0.3.0 / 2008-02-06
 
 * enhancements:
+  * added -d option to add database.yml to .gitignore during init - Ron Damen
+  
+  * added code to set the default configuration to sqlite for older versions of rails (< 2.0) - Ron Damen
+
   * split up ignores - Ron Damen
 
   i prefer the ignore to be in separate files. 

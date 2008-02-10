@@ -26,7 +26,19 @@ Main {
     description <<-txt
       initializes a git repository, and links to remote url if provided (for push/pull)
       also creates .gitignore files
+      
+      Arguments:
+      
+        remote (optional): initializes remote repository connection (named origin) so you can use:
+          git push origin
+        to push to the remote repository
 
+      Options:
+        -c: commits after init
+        
+        -d: includes config/database.yml to .gitignore
+        
+        -m message: sets the commit message
     txt
 
     examples <<-txt
