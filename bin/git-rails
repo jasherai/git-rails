@@ -120,7 +120,7 @@ Main {
   mixin :option_include_database_yaml do
     option(:include_database_yaml, :d){
       optional
-      desc 'include database.yaml in the repository'
+      desc 'include database.yml in the repository'
       attr
     }
   end
