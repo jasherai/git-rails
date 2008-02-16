@@ -1,4 +1,4 @@
-#! /opt/local/bin/ruby
+#!/usr/bin/env ruby
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
 
 begin
