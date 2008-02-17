@@ -4,7 +4,8 @@ module GitRails
 
       def run(plugin_name)
         git = GitRails::Git.new
-        Dir.chdir(File.join("vendor", "plugins", plugin_name)) do
+	path = plugin_name.match('/') ? plugin_name : File.join("vendor", "plugins", plugin_name)
+        Dir.chdir(File.join(path, plugin_name)) do
           git.pull
         end
       end
