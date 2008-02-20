@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'hoe'
 require './lib/git_rails.rb'
+require './lib/git-rails/tasks'
 
 Hoe.new('git-rails', GitRails::VERSION::STRING) do |p|
   p.rubyforge_name = 'git-rails'
