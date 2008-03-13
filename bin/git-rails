@@ -54,12 +54,14 @@ Main {
 
   mode(:install){
     description <<-txt
-      installs a plugin from a remote git repository
+      installs a plugin from a remote git repository as a git submodule.
+      installs to a path if provided e.g. vendor/rails
 
     txt
 
     examples <<-txt
       . git-rails install git://gitorious.org/rur/mainline.git plugin-name
+      . git-rails install git://github.com/koz/rails.git vendor/rails
     txt
 
     mixin :argument_remote, :argument_plugin_name
@@ -72,10 +74,12 @@ Main {
   mode(:update){
     description <<-txt
       updates a plugin from original source
+      updates a submodule as declared by the path
     txt
 
     examples <<-txt
       . git-rails update plugin-name
+      . git-rails update vendor/plugin
     txt
 
     mixin :argument_plugin_name

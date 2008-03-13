@@ -16,8 +16,8 @@ Tools to help using git with rails
 == SYNOPSIS:
 
   git-rails init {remote git repository}
-  git-rails install [remote plugin repository]
-  git-rails update plugin-name
+  git-rails install <remote plugin repository> [plugin name||path]
+  git-rails update <plugin-name||path>
 
 == REQUIREMENTS:
 
