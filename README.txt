@@ -11,6 +11,7 @@ Tools to help using git with rails
 
 * create new git repository with .gitignore, linked to remote git repository
 * install plugins from git source as git modules
+* install git source as a git module to any path
 * install plugins from svn source as git modules
 
 == SYNOPSIS:
