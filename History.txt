@@ -1,3 +1,18 @@
+=== 0.3.2 / 2008-03-18
+
+* enhancements:
+  * update command now does 
+     - git remote update
+     - git merge origin/master
+     in order to track the current version of the plugin repo. The original
+version (git submodule update) will update the submodule to the currently
+configure ref.
+
+=== 0.3.1 / 2008-03-18
+
+* enhancements:
+  * allow install and update to use paths so gem and rail (and others) can be submoduled
+
 === 0.3.0 / 2008-02-06
 
 * enhancements:

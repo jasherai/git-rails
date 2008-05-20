@@ -27,14 +27,26 @@ module GitRails
       Git::sys('git pull', remote)
     end
 
+    def remote_update(group='')
+      Git::sys('git remote update', group)
+    end
+
+    def merge(remote='')
+      Git::sys('git merge', remote)
+    end
+
     def status()
       Git::sys('git status')
     end
-    
+
     def log()
       Git::sys('git log')
     end
     
+    def version()
+      Git::sys('git version')
+    end
+
     class SubModule
       def add(source_url, dest_path)
         ::GitRails::Git::sys('git submodule add', source_url, dest_path)
