@@ -70,9 +70,7 @@ module GitRails
       def sqlite_by_default
         begin
           require 'config/boot.rb'
-          # TODO: Make this less nasty.
-          rails_version = Rails::VERSION::STRING.scan(/(\d)/).flatten.to_s.to_i
-          rails_version <= 202          
+          Rails::VERSION::STRING >= "2.0.2"
         rescue LoadError
           true
         end
